@@ -43,15 +43,46 @@ namespace KariyerAgi.API.Controllers
                 {
                     Id = j.Id,
                     Title = j.Title,
-                    CompanyName = j.Company.Name, 
+                    CompanyName = j.Company.Name,
                     Location = j.Location,
                     WorkModel = j.WorkModel,
-                    CreatedAt= DateTime.Now
-                
+                    CreatedAt = DateTime.Now
+
                 })
                 .ToListAsync(); // Asenkron olarak listeye çevir
 
             return Ok(jobPosts);
+        }
+
+        [HttpPut("Update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] JobPostDto jobPostDto)
+        {
+            var jobPost = await _kariyerAgiContext.JobPosts.FindAsync(id);
+
+            if (jobPost == null)
+            {
+                return NotFound("Güncellenecek iş ilanı bulunamadı.");
+            }
+
+            jobPost.Location = jobPostDto.Location;
+            jobPost.Title = jobPostDto.Title;
+            jobPost.Description = jobPostDto.Description;
+            jobPost.WorkModel = jobPostDto.WorkModel;
+            jobPost.Deadline = jobPostDto.Deadline;
+
+            await _kariyerAgiContext.SaveChangesAsync();
+            return Ok("İş ilanı başarıyla güncellendi!");
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var jobPost = await _kariyerAgiContext.JobPosts.FindAsync(id);
+            if (jobPost == null)
+                return NotFound("Silinecek iş ilanı bulunamadı.");
+            _kariyerAgiContext.JobPosts.Remove(jobPost);
+            await _kariyerAgiContext.SaveChangesAsync();
+            return Ok("Başarıyla Silindi.");
         }
     }
 }
