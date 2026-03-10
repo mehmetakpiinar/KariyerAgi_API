@@ -24,5 +24,9 @@ namespace KariyerAgi.Entities
 
         public int? CompanyId { get; set; }
         public Company? Company { get; set; }
+
+        public ICollection<Education> Educations { get; set; }
+        public ICollection<Experience> Experiences { get; set; }
+        public ICollection<Skill> Skills { get; set; }
     }
 }

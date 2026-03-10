@@ -52,5 +52,8 @@ namespace KariyerAgi.DataAccess
         public DbSet<Post> Posts { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Education> Educations { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Skill> Skills { get; set; }
     }
 }
